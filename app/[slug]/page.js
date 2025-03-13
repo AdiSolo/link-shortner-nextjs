@@ -3,11 +3,11 @@ import { redirect } from "next/navigation";
 
 const prisma = new PrismaClient();
 
-export default async function Page({ params }) {
+export default async function RedirectPage({ params }) {
   try {
     const { slug } = params;
 
-    // Fetch the original URL from Prisma
+    // Find the original URL from the database
     const link = await prisma.link.findUnique({
       where: { slug },
     });
@@ -27,7 +27,7 @@ export default async function Page({ params }) {
     // Redirect to the original URL
     redirect(link.url);
   } catch (error) {
-    console.error("Redirect Error:", error); // 🔥 Debugging Log
+    console.error("Redirection error:", error); // 🔥 Log errors
     return (
       <h1 className="text-2xl text-center mt-10">Internal Server Error</h1>
     );
